@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ulang Tahun Interaktif</title>
+<style>
+  body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Poppins', sans-serif;
+    overflow: hidden;
+    background: #0b0b2b;
+  }
+
+  .container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+
+  .card {
+    background: #ffb6c1;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    text-align: center;
+    transition: transform 2s ease-in, opacity 2s ease-in;
+    z-index: 5;
+    position: relative;
+  }
+
+  .card textarea {
+    width: 300px;
+    height: 150px;
+    border-radius: 10px;
+    border: 1px solid #ffccd9;
+    padding: 10px;
+    font-size: 16px;
+    resize: none;
+  }
+
+  .card button {
+    margin-top: 15px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    background: #ff69b4;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+  }
+
+  #night {
+    position: absolute;
+    top: 0;
+    left:0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    display: none;
+    overflow: hidden;
+  }
+
+  .star {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    width: 3px;
+    height: 3px;
+    opacity: 0.8;
+    box-shadow: 0 0 5px white, 0 0 10px #ffd6e8, 0 0 15px #ff5f9e;
+    animation: fall linear forwards;
+  }
+
+  @keyframes fall {
+    0% { transform: translateY(-10px); opacity: 0.8; }
+    100% { transform: translateY(100vh); opacity: 0; }
+  }
+
+  #love {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 14;
+    display: none;
+  }
+
+  .love-shape {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: #ff5f9e;
+    border-radius: 50%;
+    transform: translate(0, 500px) scale(0);
+    animation: rise 1s ease forwards;
+  }
+
+  @keyframes rise {
+    0% { transform: translate(var(--x), 500px) scale(0); opacity: 0; }
+    100% { transform: translate(var(--x), var(--y)) scale(1); opacity: 1; }
+  }
+
+  #wishText {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    font-size: 2em;
+    font-weight: bold;
+    text-align: center;
+    text-shadow: 0 0 10px #ff5f9e, 0 0 20px #ffb6c1;
+    display: none;
+    z-index: 15;
+    max-width: 300px;
+  }
+
+  .next-buttons {
+    position: absolute;
+    bottom: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: none;
+    z-index: 20;
+    gap: 15px;
+  }
+
+  .next-buttons button {
+    padding: 12px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: transform 0.3s, background 0.3s;
+  }
+
+  #nextH3 {
+    background: #ff69b4;
+    color: white;
+  }
+
+  #nextH4 {
+    background: #ff1493;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    box-shadow: 0 5px 15px rgba(255,20,147,0.5);
+  }
+
+  .next-buttons button:hover {
+    transform: translateY(-5px);
+  }
+
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="card" id="card">
+    <h2>Ketikan Harapanmu yaa 🎉</h2>
+    <textarea id="wish" placeholder="Tulis harapanmu disini..."></textarea>
+    <br>
+    <button id="sendBtn">Kirim Harapan</button>
+  </div>
+</div>
+
+<div id="night"></div>
+<div id="love"></div>
+<div id="wishText">Permohonanmu akan terwujud ✨</div>
+
+<div class="next-buttons" id="nextButtons">
+  <button id="Rahasia">Rahasia</button>
+  <button id="Misteri">Secret</button>
+</div>
+
+<script>
+const sendBtn = document.getElementById('sendBtn');
+const card = document.getElementById('card');
+const night = document.getElementById('night');
+const wishText = document.getElementById('wishText');
+const nextButtons = document.getElementById('nextButtons');
+const loveContainer = document.getElementById('love');
+
+sendBtn.addEventListener('click', () => {
+  const wish = document.getElementById('wish').value.trim();
+  if(!wish) { alert('Tolong tulis harapanmu dulu!'); return; }
+
+  card.style.transform = 'translateY(-800px) scale(0.5)';
+  card.style.opacity = '0';
+
+  setTimeout(() => {
+    night.style.display = 'block';
+    wishText.style.display = 'block';
+    loveContainer.style.display = 'block';
+    createStars();
+    createLove();
+    nextButtons.style.display = 'flex';
+  }, 2000);
+});
+
+function createStars() {
+  for(let i=0;i<50;i++){
+    const star = document.createElement('div');
+    star.classList.add('star');
+    star.style.left = Math.random()*window.innerWidth+'px';
+    star.style.top = Math.random()* -50 + 'px';
+    star.style.width = star.style.height = (2+Math.random()*3)+'px';
+    star.style.animationDuration = (2+Math.random()*3)+'s';
+    night.appendChild(star);
+    star.addEventListener('animationend', ()=>star.remove());
+  }
+  setInterval(()=>{
+    const star = document.createElement('div');
+    star.classList.add('star');
+    star.style.left = Math.random()*window.innerWidth+'px';
+    star.style.top = '-10px';
+    star.style.width = star.style.height = (2+Math.random()*3)+'px';
+    star.style.animationDuration = (2+Math.random()*3)+'s';
+    night.appendChild(star);
+    star.addEventListener('animationend', ()=>star.remove());
+  }, 300);
+}
+
+function createLove(){
+  const centerX = window.innerWidth/2;
+  const centerY = window.innerHeight/2;
+  const scale = 12;
+  const loveCoords = [];
+
+  for(let t=0;t<Math.PI;t+=0.05){
+    const x = 16*Math.pow(Math.sin(t),3)*scale;
+    const y = -(13*Math.cos(t) -5*Math.cos(2*t) -2*Math.cos(3*t) - Math.cos(4*t))*scale;
+    loveCoords.push({x:centerX - x, y:centerY + y});
+    loveCoords.push({x:centerX + x, y:centerY + y});
+  }
+
+  let index = 0;
+  const interval = setInterval(()=>{
+    if(index >= loveCoords.length) return;
+    const coord = loveCoords[index];
+    const heart = document.createElement('div');
+    heart.classList.add('love-shape');
+    heart.style.setProperty('--x', coord.x+'px');
+    heart.style.setProperty('--y', coord.y+'px');
+    loveContainer.appendChild(heart);
+    index++;
+  }, 30);
+}
+
+// Tombol pindah halaman
+document.getElementById('Rahasia').addEventListener('click', ()=>{ window.location.href = 'CARD.html'; });
+document.getElementById('Misteri').addEventListener('click', ()=>{ window.location.href = 'ULTAH.html'; });
+</script>
+
+</body>
+</html>

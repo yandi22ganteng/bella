@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Bella 🎂</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;font-family:"Poppins",sans-serif;}
+  body{
+    background:linear-gradient(180deg,#ffd6e8,#fff0f6);
+    display:flex;justify-content:center;align-items:center;
+    height:100vh;overflow:hidden;transition:background 1s ease;
+  }
+
+  /* LOGIN */
+  .wrap{
+    background:white;padding:30px 25px;border-radius:20px;
+    box-shadow:0 10px 25px rgba(255,100,150,0.25);
+    text-align:center;max-width:320px;
+  }
+  h2{color:#ff5f9e;margin-bottom:15px;}
+  .msg{color:#555;font-size:15px;}
+  .pin-input{display:flex;justify-content:center;margin:20px 0;}
+  .pin-input input{
+    width:40px;height:45px;text-align:center;font-size:20px;
+    border:2px solid #ffb6c1;border-radius:8px;margin:0 5px;
+    background:#fffafc;color:#ff5f9e;outline:none;
+  }
+  .btn{
+    background:#ff90b3;color:white;border:none;
+    padding:10px 15px;border-radius:10px;cursor:pointer;
+    font-size:15px;transition:all 0.2s ease;
+  }
+  .btn:hover{background:#ff6f9e;}
+  .hidden{display:none;}
+
+  /* SLIDES */
+  .slide{
+    position:absolute;top:0;left:0;width:100%;height:100%;
+    display:flex;justify-content:center;align-items:center;
+    flex-direction:column;opacity:0;pointer-events:none;
+    transition:opacity 1s ease;overflow:hidden;
+  }
+  .slide.active{opacity:1;pointer-events:auto;}
+
+  /* UCAPAN */
+  .card{
+    background:#ffebf0;border:2px dashed #ff8db1;
+    border-radius:15px;padding:30px 25px;
+    box-shadow:0 8px 20px rgba(255,100,150,0.2);
+    text-align:center;max-width:350px;
+    animation:float 3s ease-in-out infinite;
+  }
+  @keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-5px);}}
+  .card h1{color:#ff5c93;font-size:24px;margin-bottom:10px;}
+  .card p{color:#7a4b58;font-size:16px;line-height:1.5;}
+  #nextToVideo{
+    margin-top:20px;background:#ff7fa6;color:white;
+    border:none;padding:10px 20px;border-radius:15px;
+    cursor:pointer;font-size:16px;
+  }
+  #nextToVideo:hover{background:#ff5c93;}
+
+  /* VIDEO SLIDE */
+  .title{
+    font-size:34px;color:#ff4f8a;font-weight:700;
+    text-shadow:2px 2px 8px rgba(255,100,150,0.4);
+    margin-bottom:20px;animation:fadeIn 2s ease;
+  }
+  @keyframes fadeIn{from{opacity:0;transform:translateY(-10px);}to{opacity:1;transform:translateY(0);}}
+  .video-frame{
+    position:relative;
+    background:linear-gradient(180deg,#fff0f6,#ffd6e8);
+    padding:20px;border-radius:25px;
+    box-shadow:0 0 25px rgba(255,120,150,0.3);
+  }
+  video{
+    border:5px solid #ffb6c1;border-radius:20px;
+    width:90%;max-width:480px;display:block;
+    background:white;
+  }
+
+  /* Aksesori */
+  .decor{
+    position:absolute;z-index:1;opacity:0.9;
+  }
+  .heart{color:#ff5c93;font-size:26px;}
+  .star{color:#ffd966;font-size:20px;}
+  .ribbon{color:#ff9ac2;font-size:24px;}
+
+  /* Balon */
+  .balloon{
+    position:absolute;width:40px;height:50px;
+    border-radius:50% 50% 45% 45%;background:pink;
+    animation:floatUp 10s linear infinite;opacity:0.8;z-index:0;
+  }
+  @keyframes floatUp{
+    0%{transform:translateY(100vh) scale(1);opacity:0.8;}
+    100%{transform:translateY(-120vh) scale(1.1);opacity:1;}
+  }
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="wrap" id="login">
+  <h2>Masukin PIN dulu ya 💕</h2>
+  <p class="msg">Clue: tanggal spesialmu 🎀</p>
+  <div class="pin-input">
+    <input maxlength="1"><input maxlength="1"><input maxlength="1"><input maxlength="1">
+  </div>
+  <button class="btn" id="checkBtn">Cek PIN</button>
+  <p class="msg" id="notif"></p>
+</div>
+
+<!-- SLIDE UCAPAN -->
+<div class="slide" id="slideUcapan">
+  <div class="card">
+    <h1>Selamat Ulang Tahun ke-13, Bella! 🎂💖</h1>
+    <p>Hari ini dunia jadi lebih indah,<br>
+    karena 13 tahun lalu kamu lahir membawa warna dan tawa 🌸<br>
+    Semoga setiap langkahmu selalu penuh kebahagiaan,<br>
+    cinta, dan impian yang jadi nyata 💫<br>
+    Terima kasih udah jadi gadis sebaik dan secantik kamu 🩷</p>
+  </div>
+  <button id="nextToVideo">Lanjut ke Video 🎥</button>
+</div>
+
+<!-- SLIDE VIDEO -->
+<div class="slide" id="slideVideo">
+  <div class="title">🎉 Happy Birthday Bella! 🎈</div>
+  <div class="video-frame">
+    <video controls autoplay loop>
+      <source src="bella.mp4" type="video/mp4">
+      Browsermu tidak mendukung video.
+    </video>
+    <!-- Dekorasi cantik -->
+    <div class="decor heart" style="top:10px; left:15px;">💖</div>
+    <div class="decor star" style="top:5px; right:25px;">⭐</div>
+    <div class="decor ribbon" style="bottom:10px; left:20px;">🎀</div>
+    <div class="decor heart" style="bottom:15px; right:30px;">💗</div>
+  </div>
+  
+  <!-- Tombol ke file berikutnya -->
+  <button class="btn" id="nextToH2" style="margin-top:20px;">Buat permohonan yuu 🎀</button>
+</div>
+
+<script>
+  let correctPin="2410"; // Ganti PIN
+
+  const inputs=document.querySelectorAll(".pin-input input");
+  const checkBtn=document.getElementById("checkBtn");
+  const notif=document.getElementById("notif");
+  const login=document.getElementById("login");
+  const slideUcapan=document.getElementById("slideUcapan");
+  const slideVideo=document.getElementById("slideVideo");
+  const nextToVideo=document.getElementById("nextToVideo");
+
+  // Fokus otomatis ke input berikutnya
+  inputs.forEach((input,i)=>{
+    input.addEventListener("input",()=>{
+      if(input.value.length===1 && i<inputs.length-1)
+        inputs[i+1].focus();
+    });
+  });
+
+  // Cek PIN
+  checkBtn.addEventListener("click",()=>{
+    let entered="";
+    inputs.forEach(i=>entered+=i.value);
+    if(entered===correctPin){
+      notif.textContent="PIN benar 🎉";
+      notif.style.color="#4CAF50";
+      setTimeout(()=>{
+        login.classList.add("hidden");
+        slideUcapan.classList.add("active");
+      },800);
+    }else{
+      notif.textContent="PIN salah 😅";
+      notif.style.color="red";
+    }
+  });
+
+  // Slide ucapan ke video
+  nextToVideo.addEventListener("click",()=>{
+    slideUcapan.classList.remove("active");
+    slideVideo.classList.add("active");
+    startBalloons();
+  });
+
+  // Tombol ke h2.html
+  const nextToH2 = document.getElementById("nextToH2");
+  nextToH2.addEventListener("click", () => {
+    window.location.href = "h1.html";
+  });
+
+  // Balon animasi
+  function startBalloons(){
+    const colors=["#ff8da1","#ffd966","#9ad0f5","#a7e9af","#ffb6c1"];
+    const num=10; // jumlah balon
+    for(let i=0;i<num;i++){
+      const b=document.createElement("div");
+      b.classList.add("balloon");
+      b.style.left=Math.random()*100+"vw";
+      b.style.background=colors[Math.floor(Math.random()*colors.length)];
+      b.style.animationDuration=8+Math.random()*4+"s";
+      b.style.width=30+Math.random()*15+"px";
+      b.style.height=40+Math.random()*20+"px";
+      slideVideo.appendChild(b);
+      setTimeout(()=>b.remove(),12000);
+    }
+    setTimeout(startBalloons,4000); // loop balon
+  }
+</script>
+
+</body>
+</html>

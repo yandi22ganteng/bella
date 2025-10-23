@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kado Untukmu</title>
+  <style>
+    body {
+      margin: 0;
+      background: linear-gradient(135deg, #ffdde1, #ee9ca7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+      font-family: "Poppins", sans-serif;
+      overflow: hidden;
+    }
+
+    h1 {
+      font-size: 28px;
+      color: #660066;
+      margin-bottom: 20px;
+      animation: fadeIn 2s ease-in-out;
+    }
+
+    .gift {
+      cursor: pointer;
+      text-align: center;
+      font-size: 100px;
+      animation: bounce 1s infinite;
+      transition: transform 0.3s, filter 0.3s;
+      filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.7));
+    }
+
+    .gift:hover {
+      transform: scale(1.1) rotate(-5deg);
+      filter: drop-shadow(0 0 25px rgba(255, 255, 255, 1));
+    }
+
+    .text {
+      margin-top: 15px;
+      font-size: 20px;
+      color: #660066;
+      font-weight: bold;
+      animation: pulse 2s infinite;
+    }
+
+    /* Animasi bounce untuk hadiah */
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    /* Animasi fade in teks */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Animasi teks berdenyut */
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.05); opacity: 0.8; }
+    }
+
+    /* Emoji confetti jatuh */
+    .confetti {
+      position: absolute;
+      top: -50px;
+      font-size: 24px;
+      animation: fall linear forwards;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>🎂 Selamat Datang 🎂</h1>
+  <div class="gift" onclick="openMainPage()">🎁</div>
+  <div class="text">Klik kadonya yaa 🎉</div>
+
+  <script>
+    // Pindah ke halaman utama
+    function openMainPage() {
+      localStorage.setItem("playAudio", "true");
+      window.location.href = "tes.html";
+    }
+
+    // Confetti jatuh
+    const emojis = ["❤️", "✨", "🎀", "💖", "⭐"];
+    setInterval(() => {
+      const confetti = document.createElement("div");
+      confetti.className = "confetti";
+      confetti.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+      confetti.style.left = Math.random() * 100 + "vw";
+      confetti.style.animationDuration = 3 + Math.random() * 3 + "s";
+      document.body.appendChild(confetti);
+
+      setTimeout(() => confetti.remove(), 6000);
+    }, 500);
+  </script>
+</body>
+</html>

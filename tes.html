@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>A Special Message for You ✨</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Indie+Flower&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg-grad-start: #f8cdda;
+        --bg-grad-end: #fce4ec;
+        --card-bg: #fff8f0;
+        --text-dark: #5d5d5d;
+        --text-header: #c08497;
+        --heart-color: #ff4d6d;
+        --button-bg: #c08497;
+        --button-text: #ffffff;
+      }
+
+      body {
+        font-family: "Indie Flower", cursive;
+        /* Gradasi warna latar belakang yang lebih lembut */
+        background: linear-gradient(
+          135deg,
+          var(--bg-grad-start),
+          var(--bg-grad-end)
+        );
+        margin: 0;
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        flex-direction: column;
+        overflow: hidden; /* Mencegah scrollbar dari animasi hati */
+      }
+
+      .card {
+        width: 340px;
+        max-width: 90%;
+        background: var(--card-bg);
+        border-radius: 15px; /* Sudut kartu yang lebih tumpul */
+        transform-style: preserve-3d;
+        transform: perspective(2000px);
+        /* Bayangan yang lebih modern dan halus */
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        transition: transform 1s, box-shadow 1s;
+        position: relative;
+      }
+
+      .card:hover {
+        transform: perspective(2000px) rotate(5deg) scale(1.1);
+        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
+      }
+      
+      /* Efek 3D samping kartu disederhanakan agar lebih bersih */
+      .card::before {
+        content: "";
+        position: absolute;
+        top: -5px;
+        left: 0;
+        width: 100%;
+        height: 5px;
+        background: #eee0d4;
+        transform-origin: bottom;
+        transform: skewX(-45deg);
+      }
+
+      .card::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: -5px;
+        width: 5px;
+        height: 100%;
+        background: #e9d9ca;
+        transform-origin: left;
+        transform: skewY(-45deg);
+      }
+
+      .imgbox {
+        width: 100%;
+        height: auto;
+        position: relative;
+        transform-origin: left;
+        transition: transform 1s cubic-bezier(0.25, 1, 0.5, 1);
+        z-index: 10;
+        border-radius: 15px 0 0 15px;
+      }
+
+      .imgbox img {
+        width: 100%;
+        height: auto;
+        display: block;
+        border-radius: 15px 0 0 15px;
+      }
+
+      .card:hover .imgbox {
+        transform: rotateY(-135deg);
+      }
+      
+      /* Bark/lapisan dalam dibuat senada dengan kartu */
+      .bark {
+        position: absolute;
+        background: var(--card-bg);
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        transition: opacity 0.5s;
+        border-radius: 15px 0 0 15px;
+      }
+
+      .card:hover .bark {
+        opacity: 1;
+      }
+
+      .details {
+        position: absolute;
+        top: 0;
+        left: 0;
+        box-sizing: border-box;
+        padding: 30px;
+        z-index: -1;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+      }
+
+      .details h4 {
+        font-family: "Caveat", cursive;
+        font-size: 38px;
+        color: var(--text-header);
+        margin-bottom: 10px;
+        font-weight: 700;
+      }
+      
+      /* Menghapus class .color dan .color2, diganti dengan styling yang lebih baik */
+      .details .recipient-name {
+        font-size: 32px;
+        margin-top: -10px;
+        margin-bottom: 20px;
+      }
+
+      .details p {
+        font-size: 15px;
+        color: var(--text-dark);
+        line-height: 1.6;
+        margin: 5px 0;
+      }
+
+      .details .text-right {
+        margin-top: 15px;
+        text-align: right;
+      }
+      
+      /* Desain baru untuk tombol */
+      .link-button {
+        display: inline-block;
+        background-color: var(--button-bg);
+        color: var(--button-text);
+        padding: 10px 20px;
+        border-radius: 25px;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 14px;
+        margin-top: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+      
+      .link-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+      }
+
+      audio {
+        display: none;
+      }
+
+      .hearts {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        overflow: hidden;
+        z-index: 100;
+      }
+
+      .heart {
+        position: absolute;
+        color: var(--heart-color);
+        font-size: 24px;
+        animation: fall linear forwards;
+        text-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+      }
+
+      @keyframes fall {
+        0% {
+          transform: translateY(-10vh) scale(1);
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(110vh) scale(0.8);
+          opacity: 0;
+        }
+      }
+
+      .butterflies {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 200;
+  }
+.butterfly {
+    position: absolute;
+    font-size: 22px;
+    display: inline-block;
+    animation: fly 6s linear forwards;
+    filter: drop-shadow(0 0 2px rgba(0,0,0,0.2));
+  }
+
+  /* Animasi terbang zigzag */
+  @keyframes fly {
+    0% {
+      transform: translateY(0) translateX(0) rotate(0deg);
+      opacity: 1;
+    }
+    25% {
+      transform: translateY(-25vh) translateX(-15vw) rotate(20deg);
+      opacity: 1;
+    }
+    50% {
+      transform: translateY(-50vh) translateX(20vw) rotate(-20deg);
+      opacity: 0.9;
+    }
+    75% {
+      transform: translateY(-75vh) translateX(-10vw) rotate(30deg);
+      opacity: 0.7;
+    }
+    100% {
+      transform: translateY(-100vh) translateX(15vw) rotate(-25deg);
+      opacity: 0;
+    }
+  }
+
+  /* Efek kepakan sayap pakai scaleX */
+  .butterfly span {
+    display: inline-block;
+    animation: flap 0.5s infinite ease-in-out;
+  }
+
+  @keyframes flap {
+    0%, 100% {
+      transform: scaleX(1);
+    }
+    50% {
+      transform: scaleX(1.3);
+    }
+  }
+  /* Untuk tablet (≤768px) */
+@media (max-width: 768px) {
+  .details {
+    padding: 20px;
+  }
+
+  .details h4 {
+    font-size: 28px;
+  }
+
+  .details .recipient-name {
+    font-size: 22px;
+  }
+
+  .details p {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .link-button {
+    font-size: 13px;
+    padding: 9px 18px;
+  }
+}
+
+/* Untuk HP (≤480px) */
+@media (max-width: 480px) {
+  .details {
+    padding: 15px;
+  }
+
+  .details h4 {
+    font-size: 24px;
+  }
+
+  .details .recipient-name {
+    font-size: 20px;
+  }
+
+  .details p {
+    font-size: 13px;
+    line-height: 1.4;
+  }
+
+  .link-button {
+    font-size: 12px;
+    padding: 8px 16px;
+  }
+}
+
+    </style>
+  </head>
+
+<body>
+  <audio id="myAudio" autoplay loop>
+    <source src="serta_mulia.mp3" type="audio/mp3" />
+    <source src="serta_mulia.ogg" type="audio/ogg" />
+  </audio>
+
+  <div class="card">
+    <div class="imgbox">
+      <div class="bark"></div>
+      <img src="sampul design buku.png" alt="Cute Birthday Cover" />
+    </div>
+    <div class="details">
+      <h4>Happy Birthday 🎉</h4>
+      <h4 class="recipient-name">Bella</h4>
+      <p>Halo!</p>
+      <p>Hari ini adalah momen yang penuh arti,</p>
+      <p>karena seseorang yang spesial merayakan harinya.</p>
+      <p>Semoga perjalanan hidupmu selalu dipenuhi kebahagiaan & cinta dari aku.</p>
+      <p class="text-right">✨ With Love you bf ✨</p>
+      <p class="text-right">
+      </p>
+    </div>
+  </div>
+
+  <!-- Wadah animasi -->
+  <div class="butterflies"></div>
+  <div class="hearts"></div>
+
+  <!-- SCRIPT KUPU-KUPU -->
+  <script>
+  const card = document.querySelector(".card");
+  const butterfliesContainer = document.querySelector(".butterflies");
+
+  function releaseButterflies() {
+    for (let i = 0; i < 15; i++) {
+      const wrapper = document.createElement("span");
+      wrapper.classList.add("butterfly");
+
+      // inner span buat kepakan
+      const wing = document.createElement("span");
+      wing.innerHTML = "🦋";
+      wrapper.appendChild(wing);
+
+      // Posisi awal acak
+      wrapper.style.left = 30 + Math.random() * 40 + "vw";
+      wrapper.style.bottom = "5vh";
+
+      // Durasi terbang acak
+      wrapper.style.animationDuration = 3 + Math.random() * 4 + "s";
+
+      // Ukuran acak
+      wing.style.fontSize = 18 + Math.random() * 20 + "px";
+
+      // Durasi kepakan acak
+      wing.style.animationDuration = 0.4 + Math.random() * 0.5 + "s";
+
+      butterfliesContainer.appendChild(wrapper);
+
+      setTimeout(() => {
+        wrapper.remove();
+      }, 7000);
+    }
+  }
+
+  card.addEventListener("click", releaseButterflies);
+  </script>
+
+  <!-- SCRIPT HATI -->
+  <script>
+    const audio = document.getElementById("myAudio");
+    window.addEventListener("DOMContentLoaded", function () {
+      if (localStorage.getItem("playAudio") === "true") {
+        audio.play().catch((e) => {
+          console.log("Autoplay was blocked by the browser.");
+        });
+        localStorage.removeItem("playAudio");
+      }
+    });
+
+    const heartsContainer = document.querySelector(".hearts");
+    function createHeart() {
+      const heart = document.createElement("span");
+      heart.classList.add("heart");
+      heart.innerHTML = "♥";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.animationDuration = Math.random() * 2 + 3 + "s";
+      heartsContainer.appendChild(heart);
+      setTimeout(() => {
+        heart.remove();
+      }, 5000);
+    }
+    setInterval(createHeart, 300);
+  </script>
+</body>
+</html>
